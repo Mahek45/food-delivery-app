@@ -1,0 +1,30 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services' // ✅ Apply Firebase plugin here
+}
+
+android {
+    namespace "com.example.food_deliver" // ✅ Ensure correct package name
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.example.food_deliver"
+        minSdkVersion 21
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.3.1') // ✅ Firebase BOM
+    implementation 'com.google.firebase:firebase-auth' // ✅ Firebase Auth
+    implementation 'com.google.firebase:firebase-firestore' // ✅ Firestore (if needed)
+}
