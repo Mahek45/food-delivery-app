@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:food_deliver/components/my_drawer_tile.dart';
 import 'package:food_deliver/services/auth/auth_service.dart';
 import '../pages/settin_page.dart';
+import 'package:food_deliver/pages/ReviewListPage.dart'; // ✅ Import Review Page
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
 
-  void logout() {
-final authService = AuthServices();
- authService.signOut();
-}
+  Future<void> logout(BuildContext context) async {
+    final authService = AuthServices(); // ✅ Corrected class name
+
+    try {
+      await authService.signOut(); // ✅ Await signOut to complete
+      Navigator.of(context).pushReplacementNamed('/login'); // ✅ Navigate to login screen
+    } catch (e) {
+      debugPrint("Logout Error: $e"); // ✅ Debug error if logout fails
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +41,14 @@ final authService = AuthServices();
             ),
           ),
 
-          // home list tile
+          // Home
           MyDrawerTile(
             text: "H O M E",
             icon: Icons.home,
             onTap: () => Navigator.pop(context),
           ),
 
-          // settings list tile
+          // Settings
           MyDrawerTile(
             text: "SETTINGS",
             icon: Icons.settings,
@@ -51,18 +58,31 @@ final authService = AuthServices();
                 context,
                 MaterialPageRoute(
                   builder: (context) => const SettingsPage(),
-                ), // MaterialPageRoute
+                ),
               );
-            }, // MyDrawerTile
+            },
+          ),
+
+          // View Reviews ✅ (Newly added)
+          MyDrawerTile(
+            text: "V I E W  R E V I E W S",
+            icon: Icons.reviews,
+            onTap: () {
+              Navigator.pop(context); // Close the drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReviewListPage()),
+              );
+            },
           ),
 
           const Spacer(),
 
-          // logout list tile
+          // Logout
           MyDrawerTile(
-            text: "L O G o u t",
+            text: "L O G O U T",
             icon: Icons.logout,
-            onTap: (){},
+            onTap: () => logout(context),
           ),
 
           const SizedBox(height: 25),

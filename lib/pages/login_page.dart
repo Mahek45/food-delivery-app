@@ -47,19 +47,20 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // logo
-            Icon(
-              Icons.lock_open_rounded,
-              size: 100,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
+Image.asset(
+  'lib/images/logo.png', // Path to your logo
+  height: 300,  // Adjust size as needed
+  width: 300,   // Adjust size as needed
+),
 
-            const SizedBox(height: 25),
+
+            const SizedBox(height: 15),
 
             // message, app slogan
             Text(
-              "Food Deliver App",
+              "Shamshad's Kitchen",
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 25,
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),
             ),

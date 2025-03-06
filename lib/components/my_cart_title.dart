@@ -55,6 +55,8 @@ class MyCartTitle extends StatelessWidget {
                 ),
                 const Spacer(),
 
+                const SizedBox(height: 10),
+
                 // Increment or decrement quantity
                 QuantitySelector(
                   quantity: cartItem.quantity,

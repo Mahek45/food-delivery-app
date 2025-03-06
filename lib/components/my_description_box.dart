@@ -25,7 +25,7 @@ var mySecondaryTextStyle =
           Column(
             children: [
               Text(
-                '\$0.99' , 
+                '0/-' , 
                 style:myPrimaryTextStyle),
               Text('Delivery fee', 
               style: mySecondaryTextStyle ,

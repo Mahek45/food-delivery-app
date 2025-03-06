@@ -32,12 +32,12 @@ class _RegisterPageState extends State<RegisterPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Error"),
-          content: Text("Passwords do not match!"),
+          title: const Text("Error"),
+          content: const Text("Passwords do not match!"),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         ),
@@ -56,12 +56,12 @@ class _RegisterPageState extends State<RegisterPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Success"),
-          content: Text("Account created successfully!"),
+          title: const Text("Success"),
+          content: const Text("Account created successfully!"),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         ),
@@ -71,12 +71,12 @@ class _RegisterPageState extends State<RegisterPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Registration Error"),
+          title: const Text("Registration Error"),
           content: Text(e.toString()), // Show exact error message
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         ),

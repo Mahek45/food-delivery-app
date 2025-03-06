@@ -72,7 +72,7 @@ class _FoodPageState extends State<FoodPage> {
 
                       // Food price
                       Text(
-                        '\$${widget.food.price}',
+                        '₹${widget.food.price}',
                         style: TextStyle(
                           fontSize: 16,
                           color: Theme.of(context).colorScheme.primary,
@@ -119,7 +119,7 @@ class _FoodPageState extends State<FoodPage> {
                             return CheckboxListTile(
                               title: Text(addon.name),
                               subtitle: Text(
-                                '\$${addon.price}',
+                                '₹${addon.price}',
                                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
                               ),
                               value: selectedAddons[addon],
@@ -159,7 +159,7 @@ class _FoodPageState extends State<FoodPage> {
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_rounded),
+                icon: const Icon(Icons.arrow_back_ios_rounded),
                 onPressed: () => Navigator.pop(context),
               ),
             ),

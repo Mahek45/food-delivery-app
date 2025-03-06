@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:food_deliver/components/my_button.dart';
-
+import 'ReviewPage.dart';
 import 'delivery_progress_page.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -48,12 +48,17 @@ class _PaymentPageState extends State<PaymentPage> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(context); // Close Payment Confirmation Dialog
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => DeliveryProgressPage(),
-                  ),
-                );
+                  MaterialPageRoute(builder: (context) => ReviewPage()), // ✅ Review Page Pehle Aayega
+                ).then((_) {
+                  // Jab Review Page se wapas aaye, tab Delivery Progress dikhao
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DeliveryProgressPage()),
+                  );
+                });
               },
               child: const Text("Yes"),
             )

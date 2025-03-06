@@ -1,18 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:food_deliver/components/my_receipt.dart';
+import 'package:food_deliver/models/restaurant.dart';
+import 'package:food_deliver/pages/ReviewPage.dart';
+import 'package:food_deliver/services/database/firebase.dart';
+import 'package:provider/provider.dart';
 
-class DeliveryProgressPage extends StatelessWidget {
+class DeliveryProgressPage extends StatefulWidget {
   const DeliveryProgressPage({super.key});
+
+  @override
+  State<DeliveryProgressPage> createState() => _DeliveryProgressPageState();
+}
+
+class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
+// get acces to db
+  FirestoreService db = FirestoreService();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // save order to db
+    String receipt = context.read<Restaurant>().displayCartReceipt();
+    db.saveOrderToDatabase(receipt);
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ReviewPage(),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Delivery in Progress..."),
         backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: _buildBottomNavBar(context),
-      body: Column(
+      body: const Column(
         children: [
           MyReceipt(),
         ],
@@ -25,12 +51,11 @@ class DeliveryProgressPage extends StatelessWidget {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
-        )
-      ),
+          color: Theme.of(context).colorScheme.secondary,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          )),
       padding: const EdgeInsets.all(25),
       child: Row(
         children: [
@@ -41,65 +66,67 @@ class DeliveryProgressPage extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: IconButton(
-              onPressed: () {} ,
+              onPressed: () {},
               icon: const Icon(Icons.person),
-              ),
-          ),
-
-          const  SizedBox(width: 10),
-         
-          // driver details
-Column(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  children: [
-    Text("Mahek Lanjekar", style: TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 18,
-      color: Theme.of(context).colorScheme.inversePrimary,
-    ),
-    ),
-    Text("Driver",
-     style: TextStyle(
-      color: Theme.of(context).colorScheme.primary,
-    ),
-    ),
-  ],
-),
-
-const  Spacer(),
-
-Row(
-  children: [
-          // message button
- Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              shape: BoxShape.circle,
             ),
-            child: IconButton(
-              onPressed: () {} ,
-              icon: const Icon(Icons.message),
-              color: Theme.of(context).colorScheme.primary ,
-              ),
           ),
 
           const SizedBox(width: 10),
 
-          // call button
- Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              onPressed: () {} ,
-              icon: const Icon(Icons.call),
-              color: Colors.green,
+          // driver details
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Mahek Lanjekar",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
               ),
+              Text(
+                "Driver",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
           ),
 
-  ],
-)
+          const Spacer(),
+
+          Row(
+            children: [
+              // message button
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.message),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+
+              const SizedBox(width: 10),
+
+              // call button
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.call),
+                  color: Colors.green,
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
