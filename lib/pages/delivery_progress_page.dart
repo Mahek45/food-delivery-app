@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_deliver/components/my_receipt.dart';
-import 'package:food_deliver/models/restaurant.dart';
 import 'package:food_deliver/pages/ReviewPage.dart';
 import 'package:food_deliver/services/database/firebase.dart';
-import 'package:provider/provider.dart';
 
 class DeliveryProgressPage extends StatefulWidget {
   const DeliveryProgressPage({super.key});
@@ -13,23 +11,44 @@ class DeliveryProgressPage extends StatefulWidget {
 }
 
 class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
-// get acces to db
+  // get access to db
   FirestoreService db = FirestoreService();
 
   @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+  super.initState();
+  Future.delayed(const Duration(seconds: 5), () {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Leave a Review?"),
+          content: const Text("Would you like to share your feedback about your order?"),
+          actions: [
+            TextButton(
+              child: const Text("No"),
+              onPressed: () {
+                Navigator.of(context).pop(); // close the dialog
+              },
+            ),
+            TextButton(
+              child: const Text("Yes"),
+              onPressed: () {
+                Navigator.of(context).pop(); // close the dialog first
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReviewPage()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  });
+}
 
-    // save order to db
-    String receipt = context.read<Restaurant>().displayCartReceipt();
-    db.saveOrderToDatabase(receipt);
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ReviewPage(),
-        ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +65,17 @@ class _DeliveryProgressPageState extends State<DeliveryProgressPage> {
     );
   }
 
-  // custom bottom nav ba - message/ call delivery driver
+  // custom bottom nav bar - message / call delivery driver
   Widget _buildBottomNavBar(BuildContext context) {
     return Container(
       height: 100,
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          )),
+        color: Theme.of(context).colorScheme.secondary,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+      ),
       padding: const EdgeInsets.all(25),
       child: Row(
         children: [

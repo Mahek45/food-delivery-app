@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:food_deliver/components/my_button.dart';
-import 'ReviewPage.dart';
 import 'delivery_progress_page.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -19,10 +18,8 @@ class _PaymentPageState extends State<PaymentPage> {
   String cvvCode = '';
   bool isCvvFocused = false;
 
-  // user wants to pay
   void userTappedPay() {
     if (formkey.currentState!.validate()) {
-      // only show dialog if the form is valid
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -38,27 +35,22 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
           ),
           actions: [
-            // cancel button
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text("Cancel"),
             ),
-
-            // yes button
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context); // Close Payment Confirmation Dialog
+                Navigator.pop(context); // Close dialog
+                Navigator.pop(context); // Close payment page
+
+                // ✅ First go to DeliveryProgressPage
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ReviewPage()), // ✅ Review Page Pehle Aayega
-                ).then((_) {
-                  // Jab Review Page se wapas aaye, tab Delivery Progress dikhao
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DeliveryProgressPage()),
-                  );
-                });
+                  MaterialPageRoute(
+                    builder: (context) => const DeliveryProgressPage(),
+                  ),
+                );
               },
               child: const Text("Yes"),
             )
@@ -76,11 +68,10 @@ class _PaymentPageState extends State<PaymentPage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Checkout'),
-        centerTitle: true, // Center the title
+        centerTitle: true,
       ),
       body: Column(
         children: [
-          //credit card
           CreditCardWidget(
             cardNumber: cardNumber,
             expiryDate: expiryDate,
@@ -89,8 +80,6 @@ class _PaymentPageState extends State<PaymentPage> {
             showBackView: isCvvFocused,
             onCreditCardWidgetChange: (p0) {},
           ),
-
-          // credit card form
           CreditCardForm(
             cardNumber: cardNumber,
             expiryDate: expiryDate,
@@ -106,14 +95,11 @@ class _PaymentPageState extends State<PaymentPage> {
             },
             formKey: formkey,
           ),
-
           const Spacer(),
-
           MyButton(
             onTap: userTappedPay,
             text: "Pay Now",
           ),
-
           const SizedBox(height: 25),
         ],
       ),
